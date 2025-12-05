@@ -159,7 +159,15 @@ const COOKIE_HEADER = `X-HS-IAuth=${process.env.X_HS_IAUTH}; X-HS-IAuth-UserID=$
     "bff__curr_plan_widget_usp_content_all_content",
     "bff__payment_summary_usp_resolution_uhd_resolution",
     "bff__payment_summary_usp_audio_dolby_atmos",
+    "bff__payment_summary_usp_audio_dolby_atmos",
+    "bff__payment_summary_usp_audio_dolby_atmos",
   ];
+
+  // Remove duplicates using Map
+  const uniquePrefixes = Array.from(
+    new Map(prefixes.map((p) => [p, p])).values(),
+  );
+  console.log(`Found ${prefixes.length} keys, ${uniquePrefixes.length} unique`);
 
   async function fetchString(prefix) {
     const url = `https://origin-string-store.preprod.hotstar-labs.com/v3/admin/string?platform=bff&prefix=${prefix}`;
@@ -199,14 +207,13 @@ const COOKIE_HEADER = `X-HS-IAuth=${process.env.X_HS_IAUTH}; X-HS-IAuth-UserID=$
 
   const results = {};
 
-  for (const prefix of prefixes) {
+  for (const prefix of uniquePrefixes) {
     results[prefix] = await fetchString(prefix);
   }
 
-  // Write to AddOnKeys.json
+  // Write to script.json
   const outputPath = "./script.json";
   fs.writeFileSync(outputPath, JSON.stringify(results, null, 2), "utf8");
   console.log(`Written to ${outputPath}`);
-  // 4️⃣ Print final JSON
   console.log("FINAL OUTPUT:\n", JSON.stringify(results, null, 2));
 })();
