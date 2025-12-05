@@ -1,5 +1,5 @@
 String Store Bulk Edit Script
-Fetches all bff__ string keys from Hotstar's origin-string-store and saves them to AddOnKeys.json for bulk editing via CURL.
+Fetches all bff__ string keys from Hotstar's origin-string-store and saves them to script.json for bulk editing via CURL.
 
 🚀 Quick Start
 bash
